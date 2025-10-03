@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./SpiderWeatherFetcher.css";
 import { useLocation } from "../../context/LocationContext";
 import { Radar } from "react-chartjs-2";
 import {
@@ -177,7 +178,7 @@ function SpiderWeatherFetcher() {
       {error && <p className="error-text">{error}</p>}
 
       {radarData && !error && (
-        <div style={{ maxWidth: "600px", margin: "20px auto" }}>
+        <div style={{ maxWidth: "500px", margin: "20px auto" }}>
           <Radar data={radarData} options={{ responsive: true }} />
         </div>
       )}
