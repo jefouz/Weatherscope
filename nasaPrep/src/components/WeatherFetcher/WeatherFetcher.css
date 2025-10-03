@@ -1,0 +1,39 @@
+.weather-fetcher-wrapper {
+  margin:auto;
+  width: 35%;
+}
+
+.loading-text {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.error-text {
+  color: red;
+  font-weight: bold;
+}
+
+.weather-data-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.weather-variable {
+    margin: auto;
+    width: 40%;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+.variable-label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.variable-value {
+  font-size: 14px;
+  color: #333;
+}
