@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "../../context/LocationContext";
 import { Line } from "react-chartjs-2";
+import "./HourlyChart.css";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-export default function WeatherChart() {
+export default function HourlyChart() {
   const { coordinates, date } = useLocation();
   const [weatherData, setWeatherData] = useState([]);
   const maxHistoricalDate = "2025-09-27";

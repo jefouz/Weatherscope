@@ -1,26 +1,22 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Navbar from "./components/Nav/Nav";
 import Footer from "./components/Footer/Footer";
-import MapComponent from "./components/Map/Map";
-import WeatherFetcher from "./components/WeatherFetcher/WeatherFetcher";
+
 import "./App.css"
-import WeatherChart from "./components/HourlyChart/HourlyChart";
+import Home from "./components/Home/Home";
 
 function App() {
 
   return (<>
     <Router>
-              <WeatherChart   />
+             
 
       <Navbar />
       <Routes>
-        
+        <Route path="/" element={<Home/>} />
       </Routes>
       
-      <div className="wrapper">
-        <MapComponent />
-      <WeatherFetcher />
-      </div>
+      
       <Footer/>
       
     </Router>

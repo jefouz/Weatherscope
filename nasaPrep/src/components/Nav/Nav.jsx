@@ -12,7 +12,8 @@ const Navbar = () => {
     <div className='nav'>
       
     <ul  className="nav-menu">
-        <li>loc 1</li>
+        <li><Link to="/">Home</Link></li>
+
         <li>loc 2</li>
         <li>loc 3</li>
         <li>loc 3</li>
