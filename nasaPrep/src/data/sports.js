@@ -42,7 +42,7 @@ const sports = [
       minTemp: -15,
       maxTemp: 5,
       maxWind: 15,
-      minSnow: 10, // at least 10 mm fresh snow
+      minSnow: 5,
     },
     reason: {
       tooWarm: "Snow may melt, unsafe skiing.",
@@ -111,7 +111,7 @@ const sports = [
       maxHumidity: 85,
       maxPrecip: 5,
       maxUV: 9,
-      maxClouds: 95, // avoid heavy overcast
+      maxClouds: 95,
     },
     reason: {
       tooCold: "Too cold for a comfortable hike.",
@@ -124,25 +124,43 @@ const sports = [
     },
   },
   {
-  name: "Basketball (Outdoor)",
-  conditions: {
-    minTemp: 10,       // °C
-    maxTemp: 35,
-    maxWind: 8,        // m/s
-    maxHumidity: 80,   // %
-    maxPrecip: 2,      // mm
-    maxUV: 9,          // UV index
+    name: "Basketball (Outdoor)",
+    conditions: {
+      minTemp: 10,
+      maxTemp: 35,
+      maxWind: 8,
+      maxHumidity: 80,
+      maxPrecip: 2,
+      maxUV: 9,
+    },
+    reason: {
+      tooCold: "Too cold for outdoor basketball.",
+      tooHot: "Too hot, risk of heatstroke or dehydration.",
+      tooWindy: "Wind affects ball control and trajectory.",
+      tooHumid: "Humidity too high, exhausting to play.",
+      tooRainy: "Court slippery and unsafe due to rain.",
+      tooSunny: "UV index too high, risk of sunburn.",
+    },
   },
-  reason: {
-    tooCold: "Too cold for outdoor basketball.",
-    tooHot: "Too hot, risk of heatstroke or dehydration.",
-    tooWindy: "Wind affects ball control and trajectory.",
-    tooHumid: "Humidity too high, exhausting to play.",
-    tooRainy: "Court slippery and unsafe due to rain.",
-    tooSunny: "UV index too high, risk of sunburn.",
-  }
-}
-
+  {
+    name: "Climbing (Outdoor)",
+    conditions: {
+      minTemp: 5,
+      maxTemp: 30,
+      maxWind: 8,
+      maxPrecip: 1,
+      maxUV: 9,
+      maxClouds: 90,
+    },
+    reason: {
+      tooCold: "Too cold for safe climbing.",
+      tooHot: "Heat may cause exhaustion or dehydration.",
+      tooWindy: "Strong winds unsafe on cliffs or rocks.",
+      tooRainy: "Wet rocks are dangerous.",
+      tooSunny: "UV index too high, risk of sunburn.",
+      tooCloudy: "Low visibility or slippery surfaces due to clouds/fog.",
+    },
+  },
 ];
 
 export function checkSportSuitability(sport, weather) {
