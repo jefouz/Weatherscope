@@ -5,16 +5,14 @@ import "./WeatherFetcher.css";
 const WEATHERBIT_API_KEY = "bb57d1f689344007928f462271385afc";
 
 function WeatherFetcher() {
-  // Default to today's date
   const today = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(today);
-
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { coordinates } = useLocation();
 
-  const maxAllowed = "2025-09-27"; // NASA POWER limit
+  const maxAllowed = "2025-09-27";
 
   const variableLabels = {
     temp: "Temperature (°C)",
@@ -22,7 +20,7 @@ function WeatherFetcher() {
     temp_min: "Min Temperature (°C)",
     wind_speed: "Wind Speed (m/s)",
     humidity: "Relative Humidity (%)",
-    solar_radiation: "Solar Radiation (W/m²)"
+    solar_radiation: "Solar Radiation (W/m²)",
   };
 
   const displayOrder = [
@@ -31,24 +29,37 @@ function WeatherFetcher() {
     "temp_min",
     "wind_speed",
     "humidity",
-    "solar_radiation"
+    "solar_radiation",
   ];
 
-  // NASA POWER parameter mapping
   const nasaParams = {
-    temp: "T2M",
-    temp_max: "T2M_MAX",
-    temp_min: "T2M_MIN",
-    wind_speed: "WS2M",
-    humidity: "RH2M",
-    solar_radiation: "ALLSKY_SRFHI"
-  };
+  temp: "T2M",
+  temp_max: "T2M_MAX",
+  temp_min: "T2M_MIN",
+  wind_speed: "WS2M",
+  humidity: "RH2M",
+  solar_radiation: "ALLSKY_SFC_SW_DWN" // Updated parameter
+};
+
 
   const fetchNASAData = async (selectedDate) => {
+    // Validate coordinates
+    if (
+      coordinates?.lat == null ||
+      coordinates?.lng == null ||
+      isNaN(coordinates.lat) ||
+      isNaN(coordinates.lng)
+    ) {
+      throw new Error("Invalid coordinates for NASA POWER API");
+    }
+
+    // Format date as YYYYMMDD
     const formattedDate = selectedDate.replace(/-/g, "");
     const variables = displayOrder.map((key) => nasaParams[key]).join(",");
 
     const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${variables}&community=RE&longitude=${coordinates.lng}&latitude=${coordinates.lat}&start=${formattedDate}&end=${formattedDate}&format=JSON`;
+
+    console.log("NASA POWER URL:", url);
 
     const res = await fetch(url);
     if (!res.ok) {
@@ -65,27 +76,32 @@ function WeatherFetcher() {
     const result = {};
     displayOrder.forEach((key) => {
       const nasaKey = nasaParams[key];
-      result[key] = parameters[nasaKey]
+      const values = parameters[nasaKey]
         ? Object.values(parameters[nasaKey])
-        : null; // store null if no data
+        : null;
+      result[key] = values && values.length > 0 ? values : null;
     });
 
     return result;
   };
 
   const fetchWeatherbitData = async (selectedDate) => {
+    if (!coordinates?.lat || !coordinates?.lng) {
+      throw new Error("Invalid coordinates for Weatherbit API");
+    }
+
     const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lng}&key=${WEATHERBIT_API_KEY}&days=16`;
+    console.log("Weatherbit URL:", url);
+
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Weatherbit API error: ${res.status}`);
 
     const json = await res.json();
     const targetTime = new Date(selectedDate).getTime() / 1000;
 
-    let closestDay = json.data.reduce((prev, curr) => {
-      return Math.abs(curr.ts - targetTime) < Math.abs(prev.ts - targetTime)
-        ? curr
-        : prev;
-    });
+    const closestDay = json.data.reduce((prev, curr) =>
+      Math.abs(curr.ts - targetTime) < Math.abs(prev.ts - targetTime) ? curr : prev
+    );
 
     return {
       temp: closestDay.temp != null ? [closestDay.temp] : null,
@@ -93,26 +109,29 @@ function WeatherFetcher() {
       temp_min: closestDay.min_temp != null ? [closestDay.min_temp] : null,
       wind_speed: closestDay.wind_spd != null ? [closestDay.wind_spd] : null,
       humidity: closestDay.rh != null ? [closestDay.rh] : null,
-      solar_radiation: closestDay.solar_rad != null ? [closestDay.solar_rad] : null
+      solar_radiation: closestDay.solar_rad != null ? [closestDay.solar_rad] : null,
     };
   };
 
   const fetchData = async (selectedDate) => {
-    if (!coordinates?.lat || !coordinates?.lng || !selectedDate) return;
+    if (!selectedDate || !coordinates?.lat || !coordinates?.lng) {
+      setError("Invalid date or coordinates");
+      return;
+    }
 
     setLoading(true);
     setError(null);
     setData(null);
 
     try {
-      const isFuture = selectedDate > maxAllowed;
       let result;
+      const isFuture = selectedDate > maxAllowed;
 
       if (!isFuture) {
         try {
           result = await fetchNASAData(selectedDate);
         } catch (nasaErr) {
-          console.warn("NASA failed, falling back to Weatherbit:", nasaErr.message);
+          console.warn("NASA POWER failed, falling back to Weatherbit:", nasaErr.message);
           result = await fetchWeatherbitData(selectedDate);
         }
       } else {
@@ -121,15 +140,17 @@ function WeatherFetcher() {
 
       setData(result);
     } catch (err) {
-      setError(err.message);
       console.error(err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (date) fetchData(date);
+    if (date && coordinates?.lat != null && coordinates?.lng != null) {
+      fetchData(date);
+    }
   }, [coordinates, date]);
 
   return (
@@ -143,7 +164,8 @@ function WeatherFetcher() {
           onChange={(e) => setDate(e.target.value)}
         />
         <small>
-          *Dates ≤ 27 Sep 2025 try NASA POWER (fallback to Weatherbit if no data); future dates use Weatherbit forecast.
+          *Dates ≤ 27 Sep 2025 try NASA POWER (fallback to Weatherbit if no data);
+          future dates use Weatherbit forecast.
         </small>
       </div>
 
@@ -158,7 +180,7 @@ function WeatherFetcher() {
                 <h3 className="variable-label">{variableLabels[key] || key}</h3>
                 <p className="variable-value">{data[key].join(", ")}</p>
               </div>
-            ) : null // hide if no data
+            ) : null
           )}
         </div>
       )}

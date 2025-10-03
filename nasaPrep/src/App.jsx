@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Navbar from "./components/Nav/Nav";
 import Footer from "./components/Footer/Footer";
-import MapComponent from "./components/map/Map";
+import MapComponent from "./components/Map/Map";
 import WeatherFetcher from "./components/WeatherFetcher/WeatherFetcher";
 import "./App.css"
 
@@ -15,7 +15,7 @@ function App() {
       </Routes>
       
       <div className="wrapper"><MapComponent />
-      <WeatherFetcher  date="2025-07-01" />
+      <WeatherFetcher />
       </div>
       <Footer/>
       
