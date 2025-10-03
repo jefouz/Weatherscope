@@ -5,7 +5,10 @@ import "./WeatherFetcher.css";
 const WEATHERBIT_API_KEY = "bb57d1f689344007928f462271385afc";
 
 function WeatherFetcher() {
-  const [date, setDate] = useState("");
+  // Default to today's date
+  const today = new Date().toISOString().split("T")[0];
+  const [date, setDate] = useState(today);
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,6 +34,69 @@ function WeatherFetcher() {
     "solar_radiation"
   ];
 
+  // NASA POWER parameter mapping
+  const nasaParams = {
+    temp: "T2M",
+    temp_max: "T2M_MAX",
+    temp_min: "T2M_MIN",
+    wind_speed: "WS2M",
+    humidity: "RH2M",
+    solar_radiation: "ALLSKY_SRFHI"
+  };
+
+  const fetchNASAData = async (selectedDate) => {
+    const formattedDate = selectedDate.replace(/-/g, "");
+    const variables = displayOrder.map((key) => nasaParams[key]).join(",");
+
+    const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${variables}&community=RE&longitude=${coordinates.lng}&latitude=${coordinates.lat}&start=${formattedDate}&end=${formattedDate}&format=JSON`;
+
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`NASA API error: ${res.status}`);
+    }
+
+    const json = await res.json();
+    const parameters = json?.properties?.parameter;
+
+    if (!parameters || Object.keys(parameters).length === 0) {
+      throw new Error("No NASA data available for this date");
+    }
+
+    const result = {};
+    displayOrder.forEach((key) => {
+      const nasaKey = nasaParams[key];
+      result[key] = parameters[nasaKey]
+        ? Object.values(parameters[nasaKey])
+        : null; // store null if no data
+    });
+
+    return result;
+  };
+
+  const fetchWeatherbitData = async (selectedDate) => {
+    const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lng}&key=${WEATHERBIT_API_KEY}&days=16`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Weatherbit API error: ${res.status}`);
+
+    const json = await res.json();
+    const targetTime = new Date(selectedDate).getTime() / 1000;
+
+    let closestDay = json.data.reduce((prev, curr) => {
+      return Math.abs(curr.ts - targetTime) < Math.abs(prev.ts - targetTime)
+        ? curr
+        : prev;
+    });
+
+    return {
+      temp: closestDay.temp != null ? [closestDay.temp] : null,
+      temp_max: closestDay.max_temp != null ? [closestDay.max_temp] : null,
+      temp_min: closestDay.min_temp != null ? [closestDay.min_temp] : null,
+      wind_speed: closestDay.wind_spd != null ? [closestDay.wind_spd] : null,
+      humidity: closestDay.rh != null ? [closestDay.rh] : null,
+      solar_radiation: closestDay.solar_rad != null ? [closestDay.solar_rad] : null
+    };
+  };
+
   const fetchData = async (selectedDate) => {
     if (!coordinates?.lat || !coordinates?.lng || !selectedDate) return;
 
@@ -40,45 +106,20 @@ function WeatherFetcher() {
 
     try {
       const isFuture = selectedDate > maxAllowed;
+      let result;
 
       if (!isFuture) {
-        // NASA POWER daily (same as before)
-        const formattedDate = selectedDate.replace(/-/g, "");
-        const variables = displayOrder.join(",");
-        const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${variables}&community=AG&longitude=${coordinates.lng}&latitude=${coordinates.lat}&start=${formattedDate}&end=${formattedDate}&format=JSON`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-        const json = await res.json();
-        const parameters = json?.properties?.parameter;
-        const result = {};
-        displayOrder.forEach((key) => {
-          result[key] = parameters[key] ? Object.values(parameters[key]) : ["No data"];
-        });
-        setData(result);
+        try {
+          result = await fetchNASAData(selectedDate);
+        } catch (nasaErr) {
+          console.warn("NASA failed, falling back to Weatherbit:", nasaErr.message);
+          result = await fetchWeatherbitData(selectedDate);
+        }
       } else {
-        // Weatherbit forecast for future dates
-        const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lng}&key=${WEATHERBIT_API_KEY}&days=7`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-        const json = await res.json();
-
-        // Find matching forecast day
-        const targetTime = new Date(selectedDate).getTime() / 1000; // UNIX seconds
-        let closestDay = json.data.reduce((prev, curr) => {
-          return Math.abs(curr.ts - targetTime) < Math.abs(prev.ts - targetTime) ? curr : prev;
-        });
-
-        const result = {
-          temp: [closestDay.temp],
-          temp_max: [closestDay.max_temp],
-          temp_min: [closestDay.min_temp],
-          wind_speed: [closestDay.wind_spd],
-          humidity: [closestDay.rh],
-          solar_radiation: [closestDay.solar_rad]
-        };
-
-        setData(result);
+        result = await fetchWeatherbitData(selectedDate);
       }
+
+      setData(result);
     } catch (err) {
       setError(err.message);
       console.error(err);
@@ -102,7 +143,7 @@ function WeatherFetcher() {
           onChange={(e) => setDate(e.target.value)}
         />
         <small>
-          *Dates ≤ 27 Sep 2025 use NASA POWER; future dates use Weatherbit forecast.
+          *Dates ≤ 27 Sep 2025 try NASA POWER (fallback to Weatherbit if no data); future dates use Weatherbit forecast.
         </small>
       </div>
 
@@ -111,12 +152,14 @@ function WeatherFetcher() {
 
       {data && !error && (
         <div className="weather-data-container">
-          {displayOrder.map((key) => (
-            <div key={key} className="weather-variable">
-              <h3 className="variable-label">{variableLabels[key] || key}</h3>
-              <p className="variable-value">{data[key]?.length ? data[key].join(", ") : "No data"}</p>
-            </div>
-          ))}
+          {displayOrder.map((key) =>
+            data[key] && data[key].length ? (
+              <div key={key} className="weather-variable">
+                <h3 className="variable-label">{variableLabels[key] || key}</h3>
+                <p className="variable-value">{data[key].join(", ")}</p>
+              </div>
+            ) : null // hide if no data
+          )}
         </div>
       )}
     </div>
