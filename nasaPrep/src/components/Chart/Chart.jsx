@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "../../context/LocationContext"; // import your context
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -21,25 +22,41 @@ ChartJS.register(
   Legend
 );
 
-export default function WeatherChart({ lat, lon, date }) {
+export default function WeatherChart({ date }) {
+  const { coordinates } = useLocation(); // get coordinates from context
   const [weatherData, setWeatherData] = useState([]);
 
   useEffect(() => {
+    if (!coordinates?.lat || !coordinates?.lng || !date) return;
+
     async function fetchWeather() {
       try {
-        const API_KEY = "bb57d1f689344007928f462271385afc"; // Replace with your key
-        const url = `https://api.weatherbit.io/v2.0/history/hourly?lat=${lat}&lon=${lon}&start_date=${date}&end_date=${date}&key=${API_KEY}`;
+        const API_KEY = "bb57d1f689344007928f462271385afc";
+
+        // Add 1 day to end date for Weatherbit historical API
+        const startDate = date;
+        const endDate = new Date(date);
+        endDate.setDate(endDate.getDate() + 1);
+        const endDateStr = endDate.toISOString().split("T")[0];
+
+        const url = `https://api.weatherbit.io/v2.0/history/hourly?lat=${coordinates.lat}&lon=${coordinates.lng}&start_date=${startDate}&end_date=${endDateStr}&key=${API_KEY}`;
 
         const res = await fetch(url);
         const data = await res.json();
-        setWeatherData(data.data || []);
+
+        // Filter only the hours of the original date
+        const filteredData = data.data.filter(
+          (d) => d.timestamp_local.split("T")[0] === startDate
+        );
+
+        setWeatherData(filteredData);
       } catch (err) {
         console.error("Error fetching weather:", err);
       }
     }
 
     fetchWeather();
-  }, [lat, lon, date]);
+  }, [coordinates, date]);
 
   const chartData = {
     labels: weatherData.map((d) => d.timestamp_local.split("T")[1]), // Hour
@@ -69,7 +86,7 @@ export default function WeatherChart({ lat, lon, date }) {
     responsive: true,
     plugins: {
       legend: { position: "top" },
-      title: { display: true, text: "Weather Data (Hourly)" },
+      title: { display: true, text: `Weather Data (Hourly) for ${date}` },
     },
   };
 
