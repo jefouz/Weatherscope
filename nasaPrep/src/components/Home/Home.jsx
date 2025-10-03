@@ -1,14 +1,14 @@
 import React from 'react'
 import MapComponent from "../../components/Map/Map";
-import WeatherFetcher from "../../components/WeatherFetcher/WeatherFetcher";
 import HourlyChart from "../../components/HourlyChart/HourlyChart";
+import SpiderWeatherFetcher from '../../components/SpiderWeatherFetcher/SpiderWeatherFetcher';
 
 const Home = () => {
   return (
     <div>
         <div className="wrapper">
             <MapComponent />
-            <WeatherFetcher />
+            <SpiderWeatherFetcher />
             <HourlyChart />
         </div>
         
