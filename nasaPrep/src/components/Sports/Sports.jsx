@@ -7,46 +7,76 @@ import "./Sports.css";
 const API_KEY = "bb57d1f689344007928f462271385afc";
 
 const Sports = () => {
-  const { coordinates, date, setDate } = useLocation(); // get both coordinates and date
+  const { coordinates, date: contextDate, setDate } = useLocation();
+
+  // Default to today's date if contextDate is null
+  const today = new Date();
+  const todayStr = today.toISOString().split("T")[0];
+
+  // Max date = 16 days from today
+  const maxDate = new Date();
+  maxDate.setDate(today.getDate() + 16);
+  const maxDateStr = maxDate.toISOString().split("T")[0];
+
+  // Ensure date stays within range
+  const safeDate = contextDate
+    ? contextDate < todayStr
+      ? todayStr
+      : contextDate > maxDateStr
+      ? maxDateStr
+      : contextDate
+    : todayStr;
+
   const [selectedSport, setSelectedSport] = useState(null);
   const [weather, setWeather] = useState(null);
   const [suitability, setSuitability] = useState(null);
 
-  // Fetch daily forecast
+  const selectedDate = safeDate;
+
+  // Fetch weather for selected date
   useEffect(() => {
-    if (!coordinates || !date) return;
+    if (!coordinates || !selectedDate) return;
 
     const fetchWeather = async () => {
       try {
-        const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lng}&key=${API_KEY}&days=1`;
+        const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lng}&key=${API_KEY}&days=16`;
         const res = await fetch(url);
         const data = await res.json();
-        if (data?.data?.[0]) {
-          const day = data.data[0];
-          setWeather({
-            temp: day.temp ?? 0,
-            wind_speed: day.wind_spd ?? 0,
-            humidity: day.rh ?? 0,
-            precip: day.precip ?? 0,
-            uv: day.uv ?? 0,
-            clouds: day.clouds ?? 0,
-            snow: day.snow ?? 0,
-            solar_radiation: day.solar_rad ?? 0,
-          });
+
+        if (data?.data) {
+          const normalizedDate = new Date(selectedDate).toISOString().split("T")[0];
+          const day = data.data.find(d => d.valid_date === normalizedDate);
+
+          if (day) {
+            setWeather({
+              temp: day.temp ?? 0,
+              wind_speed: day.wind_spd ?? 0,
+              humidity: day.rh ?? 0,
+              precip: day.precip ?? 0,
+              uv: day.uv ?? 0,
+              clouds: day.clouds ?? 0,
+              snow: day.snow ?? 0,
+              solar_radiation: day.solar_rad ?? 0,
+            });
+          } else {
+            setWeather(null);
+          }
         }
       } catch (err) {
         console.error("Error fetching weather:", err);
+        setWeather(null);
       }
     };
 
     fetchWeather();
-  }, [coordinates, date]);
+  }, [coordinates, selectedDate]);
 
-  // Check suitability whenever sport or weather changes
+  // Update suitability
   useEffect(() => {
     if (selectedSport && weather) {
-      const result = checkSportSuitability(selectedSport, weather);
-      setSuitability(result);
+      setSuitability(checkSportSuitability(selectedSport, weather));
+    } else {
+      setSuitability(null);
     }
   }, [selectedSport, weather]);
 
@@ -65,9 +95,7 @@ const Sports = () => {
           <select
             value={selectedSport?.name || ""}
             onChange={(e) =>
-              setSelectedSport(
-                sports.find((s) => s.name === e.target.value)
-              )
+              setSelectedSport(sports.find((s) => s.name === e.target.value))
             }
           >
             <option value="">-- Choose a sport --</option>
@@ -84,16 +112,18 @@ const Sports = () => {
           <h2>Select Date</h2>
           <input
             type="date"
-            value={date}
+            value={selectedDate}
+            min={todayStr}
+            max={maxDateStr}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
       </div>
 
       {/* Weather Info */}
-      {weather && (
+      {weather ? (
         <div className="weather-display">
-          <h3>Weather Forecast for {date}</h3>
+          <h3>Weather Forecast for {selectedDate}</h3>
           <div className="weather-cards">
             <div>🌡️ Temp: {weather.temp}°C</div>
             <div>💨 Wind: {weather.wind_speed} m/s</div>
@@ -105,6 +135,8 @@ const Sports = () => {
             <div>🔆 Solar Radiation: {weather.solar_radiation} W/m²</div>
           </div>
         </div>
+      ) : (
+        <p>No forecast available for this date.</p>
       )}
 
       {/* Suitability */}
