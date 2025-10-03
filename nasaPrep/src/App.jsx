@@ -4,6 +4,7 @@ import Footer from "./components/Footer/Footer";
 
 import "./App.css"
 import Home from "./components/Home/Home";
+import Sports from "./components/Sports/Sports";
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home/>} />
+        <Route path="/Sports" element={<Sports/>} />
       </Routes>
       
       

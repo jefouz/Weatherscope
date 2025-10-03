@@ -55,15 +55,21 @@ const MapComponent = () => {
   const [suggestions, setSuggestions] = useState([]);
   const API_KEY = "pk.18f1a2d737147216b3788581c94547b9";
 
-  // Get user location on load
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => setCoordinates({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-        (err) => console.error(err)
-      );
-    }
-  }, [setCoordinates]);
+  
+// Get user location only if no coordinates are set yet
+useEffect(() => {
+  if (!coordinates && navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) =>
+        setCoordinates({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        }),
+      (err) => console.error(err)
+    );
+  }
+}, [coordinates, setCoordinates]);
+
 
   // Fetch suggestions
   const fetchSuggestions = debounce(async (value) => {
