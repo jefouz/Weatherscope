@@ -4,13 +4,13 @@ import Footer from "./components/Footer/Footer";
 import MapComponent from "./components/Map/Map";
 import WeatherFetcher from "./components/WeatherFetcher/WeatherFetcher";
 import "./App.css"
-import WeatherChart from "./components/Chart/Chart";
+import WeatherChart from "./components/HourlyChart/HourlyChart";
 
 function App() {
 
   return (<>
     <Router>
-              <WeatherChart  date={"2023-09-15"} />
+              <WeatherChart   />
 
       <Navbar />
       <Routes>

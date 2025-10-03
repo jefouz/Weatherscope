@@ -5,12 +5,10 @@ import "./WeatherFetcher.css";
 const WEATHERBIT_API_KEY = "bb57d1f689344007928f462271385afc";
 
 function WeatherFetcher() {
-  const today = new Date().toISOString().split("T")[0];
-  const [date, setDate] = useState(today);
+  const { coordinates, date, setDate } = useLocation(); // Get date from context
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { coordinates } = useLocation();
 
   const maxAllowed = "2025-09-27";
 
@@ -33,52 +31,37 @@ function WeatherFetcher() {
   ];
 
   const nasaParams = {
-  temp: "T2M",
-  temp_max: "T2M_MAX",
-  temp_min: "T2M_MIN",
-  wind_speed: "WS2M",
-  humidity: "RH2M",
-  solar_radiation: "ALLSKY_SFC_SW_DWN" // Updated parameter
-};
-
+    temp: "T2M",
+    temp_max: "T2M_MAX",
+    temp_min: "T2M_MIN",
+    wind_speed: "WS2M",
+    humidity: "RH2M",
+    solar_radiation: "ALLSKY_SFC_SW_DWN",
+  };
 
   const fetchNASAData = async (selectedDate) => {
-    // Validate coordinates
-    if (
-      coordinates?.lat == null ||
-      coordinates?.lng == null ||
-      isNaN(coordinates.lat) ||
-      isNaN(coordinates.lng)
-    ) {
+    if (!coordinates?.lat || !coordinates?.lng) {
       throw new Error("Invalid coordinates for NASA POWER API");
     }
 
-    // Format date as YYYYMMDD
     const formattedDate = selectedDate.replace(/-/g, "");
     const variables = displayOrder.map((key) => nasaParams[key]).join(",");
 
     const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${variables}&community=RE&longitude=${coordinates.lng}&latitude=${coordinates.lat}&start=${formattedDate}&end=${formattedDate}&format=JSON`;
 
-    console.log("NASA POWER URL:", url);
-
     const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(`NASA API error: ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`NASA API error: ${res.status}`);
 
     const json = await res.json();
     const parameters = json?.properties?.parameter;
 
-    if (!parameters || Object.keys(parameters).length === 0) {
+    if (!parameters || Object.keys(parameters).length === 0)
       throw new Error("No NASA data available for this date");
-    }
 
     const result = {};
     displayOrder.forEach((key) => {
       const nasaKey = nasaParams[key];
-      const values = parameters[nasaKey]
-        ? Object.values(parameters[nasaKey])
-        : null;
+      const values = parameters[nasaKey] ? Object.values(parameters[nasaKey]) : null;
       result[key] = values && values.length > 0 ? values : null;
     });
 
@@ -91,7 +74,6 @@ function WeatherFetcher() {
     }
 
     const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lng}&key=${WEATHERBIT_API_KEY}&days=16`;
-    console.log("Weatherbit URL:", url);
 
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Weatherbit API error: ${res.status}`);
@@ -161,7 +143,7 @@ function WeatherFetcher() {
           type="date"
           id="weather-date"
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(e) => setDate(e.target.value)} // update context date
         />
         <small>
           *Dates ≤ 27 Sep 2025 try NASA POWER (fallback to Weatherbit if no data);
