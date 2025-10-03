@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-export default function WeatherChart() {
+export default function DailyWeatherChart() {
   const { coordinates, date } = useLocation();
   const [weatherData, setWeatherData] = useState([]);
   const maxHistoricalDate = "2025-09-27";
