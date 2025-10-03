@@ -1,0 +1,81 @@
+.sports-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.map-section {
+  height: 400px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.controls-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.selector-group, .date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selector-group select, .date-group input {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.weather-display {
+  margin-top: 20px;
+}
+
+.weather-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 16px;
+}
+
+.weather-cards div {
+  background-color: #f4f4f4;
+  padding: 10px 15px;
+  border-radius: 8px;
+  min-width: 120px;
+  text-align: center;
+}
+
+.suitability {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.suitability.good {
+  background-color: #e0f7e9;
+  color: #2e7d32;
+  border: 1px solid #2e7d32;
+}
+
+.suitability.bad {
+  background-color: #fdecea;
+  color: #c62828;
+  border: 1px solid #c62828;
+}
+
+.suitability ul {
+  margin: 5px 0 0 20px;
+  padding: 0;
+}
+
+.suitability li {
+  margin-bottom: 5px;
+}

@@ -1,12 +1,129 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import MapComponent from "../../components/Map/Map";
+import sports, { checkSportSuitability } from "../../data/sports";
+import { useLocation } from "../../context/LocationContext";
+import "./Sports.css";
+
+const API_KEY = "bb57d1f689344007928f462271385afc";
 
 const Sports = () => {
-  return (
-    <div className='wrapper'>
-        <MapComponent/>
-    </div>
-  )
-}
+  const { coordinates, date, setDate } = useLocation(); // get both coordinates and date
+  const [selectedSport, setSelectedSport] = useState(null);
+  const [weather, setWeather] = useState(null);
+  const [suitability, setSuitability] = useState(null);
 
-export default Sports
+  // Fetch daily forecast
+  useEffect(() => {
+    if (!coordinates || !date) return;
+
+    const fetchWeather = async () => {
+      try {
+        const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lng}&key=${API_KEY}&days=1`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data?.data?.[0]) {
+          const day = data.data[0];
+          setWeather({
+            temp: day.temp ?? 0,
+            wind_speed: day.wind_spd ?? 0,
+            humidity: day.rh ?? 0,
+            precip: day.precip ?? 0,
+            uv: day.uv ?? 0,
+            clouds: day.clouds ?? 0,
+            snow: day.snow ?? 0,
+            solar_radiation: day.solar_rad ?? 0,
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching weather:", err);
+      }
+    };
+
+    fetchWeather();
+  }, [coordinates, date]);
+
+  // Check suitability whenever sport or weather changes
+  useEffect(() => {
+    if (selectedSport && weather) {
+      const result = checkSportSuitability(selectedSport, weather);
+      setSuitability(result);
+    }
+  }, [selectedSport, weather]);
+
+  return (
+    <div className="sports-page">
+      {/* Map */}
+      <div className="map-section">
+        <MapComponent />
+      </div>
+
+      {/* Controls */}
+      <div className="controls-section">
+        {/* Sport Selector */}
+        <div className="selector-group">
+          <h2>Select Sport</h2>
+          <select
+            value={selectedSport?.name || ""}
+            onChange={(e) =>
+              setSelectedSport(
+                sports.find((s) => s.name === e.target.value)
+              )
+            }
+          >
+            <option value="">-- Choose a sport --</option>
+            {sports.map((s) => (
+              <option key={s.name} value={s.name}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Date Picker */}
+        <div className="date-group">
+          <h2>Select Date</h2>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Weather Info */}
+      {weather && (
+        <div className="weather-display">
+          <h3>Weather Forecast for {date}</h3>
+          <div className="weather-cards">
+            <div>🌡️ Temp: {weather.temp}°C</div>
+            <div>💨 Wind: {weather.wind_speed} m/s</div>
+            <div>💧 Humidity: {weather.humidity}%</div>
+            <div>🌧️ Precipitation: {weather.precip} mm</div>
+            <div>☀️ UV Index: {weather.uv}</div>
+            <div>☁️ Cloud Cover: {weather.clouds}%</div>
+            <div>❄️ Snow: {weather.snow} mm</div>
+            <div>🔆 Solar Radiation: {weather.solar_radiation} W/m²</div>
+          </div>
+        </div>
+      )}
+
+      {/* Suitability */}
+      {suitability && (
+        <div className={`suitability ${suitability.suitable ? "good" : "bad"}`}>
+          <h3>
+            {suitability.suitable
+              ? suitability.message
+              : "Unsuitable Weather Conditions:"}
+          </h3>
+          {!suitability.suitable && (
+            <ul>
+              <li>{suitability.message}</li>
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Sports;
