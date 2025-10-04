@@ -1,6 +1,7 @@
-.wrapper {
+.map-wrapper {
   font-family: Arial, sans-serif;
   padding: 20px;
+  width: 100%;
 }
 
 .HorizantalWrapper {

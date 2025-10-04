@@ -1,13 +1,18 @@
 .sports-page {
   display: flex;
-  
   gap: 20px;
   padding: 20px;
 }
-
+.sports-wrapper{
+ display: flex;
+ flex-direction: column;
+  width: 40%;
+  align-items: center;
+  justify-content: center;
+}
 .map-section {
   
-  width: 60%;
+  width: 100%;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -34,11 +39,18 @@
 
 .weather-display {
   margin-top: 20px;
+  display: flex;
+ flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 .weather-cards {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 15px;
   font-size: 16px;
 }

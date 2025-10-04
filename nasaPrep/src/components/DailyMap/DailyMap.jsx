@@ -5,7 +5,7 @@ import SpiderWeatherFetcher from '../../components/SpiderWeatherFetcher/SpiderWe
 import "./DailyMap.css";
 const DailyMap = () => {
   return (
-    <div className="wrapper">
+    <div className="map-wrapper">
           <div className="HorizantalWrapper">
             <div className="map-section">
         <MapComponent />
