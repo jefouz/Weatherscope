@@ -10,6 +10,7 @@ const Navbar = () => {
  
   return (
     <div className='nav'>
+      <img src="/images/new-SpaceApps_logo.webp" alt="" />
       
     <ul  className="nav-menu">
         <li><Link to="/">Home</Link></li>

@@ -49,6 +49,10 @@
   transition: width 0.3s ease;
   border-radius: 2px;
 }
+.nav img{
+  height: 60px;
+  margin-right: auto;
+}
 
 .nav-menu li:hover::after {
   width: 100%;
