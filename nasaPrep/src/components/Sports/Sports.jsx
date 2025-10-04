@@ -279,7 +279,7 @@ const Sports = () => {
 
       {weather && selectedSport && (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <button className="btn" onClick={exportPDF}>Export Report as PDF</button>
+          <button className="bton" onClick={exportPDF}>Export Report as PDF</button>
         </div>
       )}
     </div>

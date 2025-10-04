@@ -18,13 +18,13 @@ const Home = () => {
             covered.
           </p>
           <div className="hero-buttons">
-            <Link to="/DailyMap" className="btn">
+            <Link to="/DailyMap" className="butn">
               🌍 View Map
             </Link>
-            <Link to="/Sports" className="btn secondary">
+            <Link to="/Sports" className="butn">
               ⚽ Sports Check
             </Link>
-             <Link to="/Hazards" className="btn ">
+             <Link to="/Hazards" className="butn ">
               🌪️ Check Natural Hazards
             </Link>
           </div>

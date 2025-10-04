@@ -48,12 +48,16 @@
 
 .hero-buttons {
   display: flex;
-  gap: 1rem;
+
+ 
 }
 
-.btn {
+.butn {padding: 10px 8px;
+  margin: 5px;
+  
+ 
   text-decoration: none;
-  padding: 0.8rem 1.5rem;
+ text-align: center;
   border-radius: 8px;
   background: #0077b6;
   color: #fff;
@@ -61,19 +65,12 @@
   transition: 0.3s ease;
 }
 
-.btn:hover {
+.butn:hover {
   background: #023e8a;
 }
 
-.btn.secondary {
-  background: #48cae4;
-  color: #000;
-}
 
-.btn.secondary:hover {
-  background: #0096c7;
-  color: #fff;
-}
+
 
 .hero-image img {
   max-width: 400px;
