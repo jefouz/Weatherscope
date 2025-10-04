@@ -24,6 +24,9 @@ const Home = () => {
             <Link to="/Sports" className="btn secondary">
               ⚽ Sports Check
             </Link>
+             <Link to="/Hazards" className="btn ">
+              🌪️ Check Natural Hazards
+            </Link>
           </div>
         </div>
         <div className="hero-image">

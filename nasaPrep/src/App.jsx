@@ -12,11 +12,11 @@ import Contact from "./components/Contact/Contact";
 
 function App() {
 
-  return (<>
-    <Router>
+  return (<div className="app">
+    <Router >
              
 
-      <Navbar />
+   <Navbar />
       <Routes>
         <Route path="/Hazards" element={<HazardsMap/>}></Route>
         <Route path="/About" element={<About/>}></Route>
@@ -28,9 +28,11 @@ function App() {
       
       
       <Footer/>
+
+     
       
     </Router>
-    </>
+    </div>
   );
 }
 

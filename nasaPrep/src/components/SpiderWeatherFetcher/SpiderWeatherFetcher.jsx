@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./SpiderWeatherFetcher.css";
 import { useLocation } from "../../context/LocationContext";
 import { Radar } from "react-chartjs-2";
@@ -12,6 +12,7 @@ import {
   Legend,
   Title,
 } from "chart.js";
+import { jsPDF } from "jspdf";
 
 ChartJS.register(
   RadialLinearScale,
@@ -30,6 +31,7 @@ function SpiderWeatherFetcher() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const radarRef = useRef();
 
   const maxAllowed = "2025-09-27";
 
@@ -141,7 +143,6 @@ function SpiderWeatherFetcher() {
     }
   }, [coordinates, date]);
 
-  // Filter out null entries for the radar chart
   const validKeys = data
     ? displayOrder.filter((key) => data[key] && data[key].length && data[key][0] != null)
     : [];
@@ -162,6 +163,49 @@ function SpiderWeatherFetcher() {
       }
     : null;
 
+  // --- Export functions ---
+  const exportJSON = () => {
+    if (!data) return;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `weather_${date}.json`;
+    link.click();
+  };
+
+  const exportCSV = () => {
+    if (!data) return;
+    const headers = validKeys.map((key) => variableLabels[key]);
+    const values = validKeys.map((key) => data[key][0]);
+    const csvContent = [headers.join(","), values.join(",")].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `weather_${date}.csv`;
+    link.click();
+  };
+
+  const exportPDF = async () => {
+    if (!data || !radarRef.current) return;
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text(`Weather Data for ${date}`, 10, 10);
+
+    let y = 20;
+    validKeys.forEach((key) => {
+      doc.text(`${variableLabels[key]}: ${data[key][0]}`, 10, y);
+      y += 10;
+    });
+
+    // Add radar chart as image
+    const chartCanvas = radarRef.current.firstChild; // Chart.js renders canvas as firstChild
+    const chartImage = chartCanvas.toDataURL("image/png", 1.0);
+    doc.addImage(chartImage, "PNG", 10, y, 180, 100); // position & size
+
+    doc.save(`weather_${date}.pdf`);
+  };
+
   return (
     <div className="weather-fetcher-wrapper">
       <div className="date-input-container">
@@ -178,8 +222,16 @@ function SpiderWeatherFetcher() {
       {error && <p className="error-text">{error}</p>}
 
       {radarData && !error && (
-        <div style={{ maxWidth: "500px", margin: "20px auto" }}>
+        <div ref={radarRef} style={{ maxWidth: "500px", margin: "20px auto" }}>
           <Radar data={radarData} options={{ responsive: true }} />
+        </div>
+      )}
+
+      {data && (
+        <div className="export-buttons" style={{ textAlign: "center", marginTop: "20px" }}>
+          <button onClick={exportJSON}>Export JSON</button>
+          <button onClick={exportCSV}>Export CSV</button>
+          <button onClick={exportPDF}>Export PDF</button>
         </div>
       )}
     </div>
