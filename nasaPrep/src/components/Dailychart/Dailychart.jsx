@@ -32,7 +32,7 @@ export default function DailyWeatherChart() {
 
     async function fetchWeather() {
       try {
-        const API_KEY = "bb57d1f689344007928f462271385afc";
+        const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
         let dataArray = [];
         const isFuture = date > maxHistoricalDate;
 

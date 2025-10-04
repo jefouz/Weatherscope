@@ -4,7 +4,7 @@ import sports, { checkSportSuitability } from "../../data/sports";
 import { useLocation } from "../../context/LocationContext";
 import "./Sports.css";
 
-const API_KEY = "bb57d1f689344007928f462271385afc";
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 const Sports = () => {
   const { coordinates, date: contextDate, setDate } = useLocation();

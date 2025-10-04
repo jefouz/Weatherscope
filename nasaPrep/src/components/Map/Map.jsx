@@ -53,7 +53,7 @@ const MapComponent = () => {
   const { coordinates, setCoordinates } = useLocation();
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const API_KEY = "pk.18f1a2d737147216b3788581c94547b9";
+  const API_KEY = import.meta.env.VITE_GEO_API_KEY;
 
   
 // Get user location only if no coordinates are set yet

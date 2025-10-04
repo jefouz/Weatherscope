@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "../../context/LocationContext";
 import "./WeatherFetcher.css";
 
-const WEATHERBIT_API_KEY = "bb57d1f689344007928f462271385afc";
+const WEATHERBIT_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 function WeatherFetcher() {
   const { coordinates, date, setDate } = useLocation(); // Get date from context
