@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, CircleMarker, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import "./HazardsMap.css";
 
 // Fix default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -45,15 +46,11 @@ const MapLegend = () => {
     const legend = L.control({ position: "topright" });
     legend.onAdd = () => {
       const div = L.DomUtil.create("div", "info legend");
-      div.style.backgroundColor = "white";
-      div.style.padding = "6px 10px";
-      div.style.borderRadius = "8px";
-      div.style.boxShadow = "0 0 5px rgba(0,0,0,0.3)";
       div.innerHTML = `
-        <h4>Legend</h4>
-        <i style="background:${hazardColors.earthquake};width:12px;height:12px;display:inline-block;margin-right:5px;"></i> Earthquake<br>
-        <i style="background:${hazardColors.storm};width:12px;height:12px;display:inline-block;margin-right:5px;"></i> Storm<br>
-        <i style="background:${hazardColors.tornado};width:12px;height:12px;display:inline-block;margin-right:5px;"></i> Tornado<br>
+        <h4>Hazard Legend</h4>
+        <i style="background:${hazardColors.earthquake};"></i> Earthquake<br>
+        <i style="background:${hazardColors.storm};"></i> Storm<br>
+        <i style="background:${hazardColors.tornado};"></i> Tornado<br>
       `;
       return div;
     };
@@ -108,7 +105,7 @@ const HazardsMap = () => {
       }
     };
 
-    // Future earthquakes → simulated realistically
+    // Future earthquakes → simulated
     const simulateFutureEarthquakes = () => {
       const zones = [
         { name: "Ring of Fire", latRange: [-60, 60], lngRange: [100, -70], weight: 0.7 },
@@ -129,7 +126,6 @@ const HazardsMap = () => {
       setEarthquakes(simulated);
     };
 
-    // Future storms/tornadoes → seasonal simulation
     const simulateStormsTornadoes = () => {
       const month = selected.getMonth() + 1;
       const zones = [
@@ -153,9 +149,9 @@ const HazardsMap = () => {
     };
 
     if (selected < today) {
-      fetchEarthquakes(); // Only real past earthquakes
+      fetchEarthquakes();
       setStorms([]);
-      setTornadoes([]); // No past storm/tornado simulation
+      setTornadoes([]);
     } else {
       simulateFutureEarthquakes();
       simulateStormsTornadoes();
@@ -163,7 +159,17 @@ const HazardsMap = () => {
   }, [selectedDate, todayString]);
 
   return (
-    <div className="map-container-wrapper">
+    <div className="hazards-map-wrapper">
+      {/* Introduction */}
+      <div className="hazards-intro">
+        <h2>🌍 Global Hazard Map</h2>
+        <p>
+          View earthquakes, storms, and tornadoes around the world for a selected date.  
+          Past events are real, while future hazards are predicted based on historical and seasonal data.
+        </p>
+      </div>
+
+      {/* Date Picker */}
       <div className="date-picker">
         <label htmlFor="date">Select Date: </label>
         <input type="date" id="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />

@@ -1,0 +1,148 @@
+/* ------------------------- */
+/* General Wrapper & Fonts */
+/* ------------------------- */
+.hazards-map-wrapper {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+/* ------------------------- */
+/* Intro Section */
+/* ------------------------- */
+.hazards-intro {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.hazards-intro h2 {
+  font-size: 26px;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.hazards-intro p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ------------------------- */
+/* Date Picker */
+/* ------------------------- */
+.date-picker {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.date-picker label {
+  font-weight: 600;
+  margin-right: 10px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.date-picker input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.date-picker input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* ------------------------- */
+/* Map Container */
+/* ------------------------- */
+.leaflet-container {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  height: 600px !important;
+}
+
+/* ------------------------- */
+/* Leaflet Legend */
+/* ------------------------- */
+.leaflet-control .info.legend {
+  background: #fff;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  line-height: 1.5;
+}
+
+.leaflet-control .info.legend h4 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.leaflet-control .info.legend i {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+/* ------------------------- */
+/* Circle Marker Hover Tooltip */
+/* ------------------------- */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  font-size: 14px;
+}
+
+.leaflet-popup-content b {
+  color: #2c3e50;
+}
+
+/* Circle marker hover effect (simulate “pulse”) */
+.leaflet-interactive:hover {
+  stroke: #000 !important;
+  stroke-width: 2 !important;
+  opacity: 0.9;
+}
+
+/* ------------------------- */
+/* Future Event Style */
+.leaflet-interactive {
+  transition: all 0.2s ease;
+}
+
+/* ------------------------- */
+/* Responsive Adjustments */
+/* ------------------------- */
+@media screen and (max-width: 768px) {
+  .hazards-map-wrapper {
+    margin: 10px;
+  }
+
+  .hazards-intro h2 {
+    font-size: 22px;
+  }
+
+  .hazards-intro p {
+    font-size: 14px;
+  }
+
+  .date-picker label {
+    font-size: 13px;
+  }
+
+  .date-picker input {
+    font-size: 13px;
+  }
+}
