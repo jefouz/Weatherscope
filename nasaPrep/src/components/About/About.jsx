@@ -1,5 +1,6 @@
 import React from "react";
 import "./About.css";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -42,35 +43,36 @@ const About = () => {
       </section>
 
       {/* Team Section */}
-      <section className="about-team">
-        <h2>Meet the Team</h2>
-        <div className="team-cards">
-          <div className="team-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-              alt="Team Member"
-            />
-            <h3>Alice Johnson</h3>
-            <p>Lead Developer – Responsible for building the interactive map and core functionalities.</p>
-          </div>
-          <div className="team-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-              alt="Team Member"
-            />
-            <h3>Bob Smith</h3>
-            <p>Data Analyst – Integrates APIs and ensures accurate weather data.</p>
-          </div>
-          <div className="team-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-              alt="Team Member"
-            />
-            <h3>Charlie Lee</h3>
-            <p>UI/UX Designer – Creates an intuitive and visually appealing interface.</p>
-          </div>
+    <section className="about-team">
+      <h2>Meet the Team</h2>
+      <div className="team-cards">
+        <div className="team-card">
+          <img
+            src="/images/Ali Adnan Jaffal.jpg"
+            alt="Ali Adnan Jaffal"
+          />
+          <h3>Ali Adnan Jaffal</h3>
+          <p>Lead Developer – Responsible for building the interactive map and core functionalities.</p>
         </div>
-      </section>
+        <div className="team-card">
+          <img
+            src="/images/Hussein Al Sheebe.jpg"
+            alt="Hussein Al Sheebe"
+          />
+          <h3>Hussein Al Sheebe</h3>
+          <p>Backend Developer</p>
+        </div>
+        <div className="team-card">
+          <img
+            src="/images/Ali Mohammad Jaffal.jpg"
+            alt="Ali Mohammad Jaffal"
+          />
+          <h3>Ali Mohammad Jaffal</h3>
+          <p>Front-End Designer</p>
+        </div>
+      </div>
+    </section>
+
 
       {/* Features Section */}
       <section className="about-features">
@@ -101,9 +103,9 @@ const About = () => {
         <p>
           Explore the world of weather data and plan your activities with confidence.
         </p>
-        <a href="/map" className="btn">
-          🌍 View Map
-        </a>
+        <Link to="/DailyMap" className="btn">
+                      🌍 View Map
+        </Link>
       </section>
     </div>
   );

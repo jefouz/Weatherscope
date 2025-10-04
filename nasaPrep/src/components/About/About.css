@@ -15,10 +15,11 @@
   padding: 4rem 8%;
   background: linear-gradient(135deg, #f0f4f8, #ffffff);
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .about-hero-text {
-  max-width: 50%;
+  max-width: 600px;
 }
 
 .about-hero-text h1 {
@@ -34,6 +35,7 @@
 
 .about-hero-image img {
   max-width: 400px;
+  width: 100%;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
@@ -97,14 +99,22 @@
 }
 
 .team-card img {
-  width: 80px;
+  width: 120px;       /* all images same width */
+  height: 120px;      /* all images same height */
+  object-fit: cover;  /* crop/fit the image nicely */
+  border-radius: 50%; /* makes it circular */
   margin-bottom: 1rem;
-  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .team-card h3 {
   margin-bottom: 0.5rem;
   color: #023e8a;
+}
+
+.team-card p {
+  font-size: 0.95rem;
+  color: #333;
 }
 
 /* Features Section */
@@ -176,4 +186,26 @@
 
 .about-cta .btn:hover {
   background: #023e8a;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .about-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-hero-text {
+    max-width: 100%;
+  }
+
+  .about-mission {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .features-cards, .team-cards {
+    flex-direction: column;
+    align-items: center;
+  }
 }
