@@ -138,13 +138,16 @@ const Sports = () => {
                 setSelectedSport(sports.find((s) => s.name === e.target.value))
               }
             >
-              <option value="">-- Choose a sport --</option>
+              <option value="" disabled>
+                -- Choose a sport --
+              </option>
               {sports.map((s) => (
                 <option key={s.name} value={s.name}>
                   {s.name}
                 </option>
               ))}
             </select>
+
           </div>
 
           {/* Date Picker */}
