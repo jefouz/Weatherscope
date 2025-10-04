@@ -7,13 +7,14 @@ const DailyMap = () => {
   return (
     <div className="map-wrapper">
           <div className="HorizantalWrapper">
-            <div className="map-section">
-        <MapComponent />
-      </div>
-            <SpiderWeatherFetcher />
+              <div className="map-section">
+                  <MapComponent />
+              </div>
+          <SpiderWeatherFetcher /> 
           </div>
-            <HourlyChart />
-        </div>
+          <HourlyChart />  
+    </div>
+    
         
   )
 }
