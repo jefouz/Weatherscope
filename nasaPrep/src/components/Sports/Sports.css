@@ -1,13 +1,13 @@
 .sports-page {
   display: flex;
-  flex-direction: column;
+  
   gap: 20px;
   padding: 20px;
 }
 
 .map-section {
-  height: 400px;
-  width: 100%;
+  
+  width: 60%;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);

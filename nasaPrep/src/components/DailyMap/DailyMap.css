@@ -9,3 +9,12 @@
     gap: 20px; /* space between the items */
     align-items: flex-start; /* aligns items at the top, can use center for vertical center */
 }
+
+
+.map-section {
+  
+  width: 60%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

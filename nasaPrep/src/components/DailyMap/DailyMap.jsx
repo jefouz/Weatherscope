@@ -7,7 +7,9 @@ const DailyMap = () => {
   return (
     <div className="wrapper">
           <div className="HorizantalWrapper">
-            <MapComponent />
+            <div className="map-section">
+        <MapComponent />
+      </div>
             <SpiderWeatherFetcher />
           </div>
             <HourlyChart />
