@@ -1,36 +1,50 @@
 .sports-page {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   padding: 20px;
+  width: 100%;
 }
-.sports-wrapper{
- display: flex;
- flex-direction: column;
-  width: 40%;
-  align-items: center;
-  justify-content: center;
+.flexwrapper{
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* space between the items */
+  align-items: flex-start; /* aligns items at the top, can use center for vertical center */
+  width: 100%;
 }
 .map-section {
   
-  width: 100%;
+  width: 1000px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.sports-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .controls-section {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
-.selector-group, .date-group {
+.selector-group,
+.date-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: center;
 }
 
-.selector-group select, .date-group input {
+.selector-group select,
+.date-group input {
   padding: 8px;
   font-size: 16px;
   border-radius: 6px;
@@ -40,7 +54,7 @@
 .weather-display {
   margin-top: 20px;
   display: flex;
- flex-direction: column;
+  flex-direction: column;
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -90,4 +104,63 @@
 
 .suitability li {
   margin-bottom: 5px;
+}
+
+.no-best-days {
+  margin-top: 1.5rem;
+  color: #777;
+  font-style: italic;
+}
+
+.best-days-section {
+  width: 100%;
+  text-align: center;
+  margin-top: 3rem;
+  padding: 2rem 1rem;
+  border-top: 2px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.best-days-btn {
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.best-days-btn:hover {
+  background-color: #005bcc;
+  transform: translateY(-2px);
+}
+
+.best-days-desc {
+  margin-top: 0.6rem;
+  color: #555;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.best-days-list {
+  margin-top: 1.5rem;
+  text-align: left;
+  display: inline-block;
+}
+
+.best-days-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.best-days-list li {
+  background: #f6f6f6;
+  padding: 0.6rem 1rem;
+  margin: 0.4rem 0;
+  border-radius: 6px;
 }
