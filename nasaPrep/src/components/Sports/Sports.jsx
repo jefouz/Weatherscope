@@ -188,9 +188,51 @@ const Sports = () => {
   return (
     <div className="sports-page">
       <div className="flexwrapper">
+<<<<<<< HEAD
         {/* Map */}
         <div className="map-section">
           <MapComponent />
+=======
+      {/* Map */}
+      <div className="map-section">
+        <MapComponent />
+      </div>
+
+      {/* Controls + Weather + Suitability */}
+      <div className="sports-wrapper">
+        <div className="controls-section">
+          {/* Sport Selector */}
+          <div className="selector-group">
+            <h2>Select Sport</h2>
+            <select
+              value={selectedSport?.name || ""}
+              onChange={(e) =>
+                setSelectedSport(sports.find((s) => s.name === e.target.value))
+              }
+            >
+              <option value="" disabled>
+                -- Choose a sport --
+              </option>
+              {sports.map((s) => (
+                <option key={s.name} value={s.name}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+
+          </div>
+
+          {/* Date Picker */}
+          <div className="date-group">
+            <h2>Select Date</h2>
+            <input
+              type="date"
+              value={selectedDate}
+              min={todayStr}
+              max={maxDateStr}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
         </div>
 
         {/* Controls + Weather + Suitability */}
