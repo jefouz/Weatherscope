@@ -7,11 +7,8 @@ function Footer() {
     <div className="footer">
       
       <ul className="footer-links">
-        <li>Company</li>
-        <li>Products</li>
-        <li>Offices</li>
         <li><Link to="/About">About</Link></li>
-        <li>Contact</li>
+        <li><Link to="/Contact">Contact</Link></li>
       </ul>
       
       <div className="footer-copyright">
