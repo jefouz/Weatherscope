@@ -28,7 +28,7 @@ const Home = () => {
         </div>
         <div className="hero-image">
           <img
-            src="https://www.publicdomainpictures.net/pictures/30000/nahled/weather-map-1385395321t.jpg"
+            src="https://media.istockphoto.com/id/2204520095/photo/the-beauty-of-earth-from-space-with-stunning-visuals-of-our-planets-landscapes-and-features.webp?a=1&b=1&s=612x612&w=0&k=20&c=n7dilFnqIeftvxQ936HLEQeNpV9SXDpuDXIw4-DyYpA="
             alt="Earth weather"
           />
         </div>
