@@ -1,128 +1,100 @@
+/* General Navbar Styles */
 .nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: center; /* center nav menu horizontally */
   align-items: center;
-  padding: 16px;
-  box-shadow: 0 1px 3px -2px black;
-  
+  padding: 16px 8%;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  /* position: sticky; */ /* removed */
+  /* top: 0; */           /* removed */
+  z-index: 100;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Nav Menu */
 .nav-menu {
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 50px;
-  color: #626262;
-  font-size: 20px;
+  gap: 40px;
+}
+
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #0077b6;
+  font-size: 18px;
   font-weight: 500;
-}
-.nav-menu li{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  cursor: pointer;
- 
-}
-.nav-menu hr{
-  border: none;
-  width: 80%;
-height: 3px;
-border-radius: 10px;
-background: #FF4141;
+  padding: 8px 12px;
+  transition: 0.3s ease;
 }
 
- 
+.nav-menu li a:hover {
+  color: #023e8a;
+}
 
+/* Underline animation on hover (subtle, matches link color) */
+.nav-menu li::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 3px;
+  bottom: -4px;
+  left: 0;
+  background-color: #0077b6; /* matches link color */
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
 
-@media(max-width:1280px){
-  .navbar{
-      padding: 12px 50px;
+.nav-menu li:hover::after {
+  width: 100%;
+}
+
+/* Responsive Menu (Mobile) */
+@media(max-width: 800px) {
+  .nav {
+    padding: 12px 4%;
   }
-  .nav-logo img{
-      width: 40px;
+
+  .nav-menu {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    display: none;
+    gap: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
-  .nav-logo p{
-      font-size: 25px;
+
+  .nav-menu-visible {
+    display: flex;
   }
-  .nav-menu{
-      gap: 30px;
-      font-size: 16px;
+
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
   }
-  .nav-login-cart{
-      gap: 30px;
-  }
-  .nav-login-cart button{
-      width: 120px;
-      height: 45px;
-      font-size: 16px;
-  }
-  .nav-cart-count{
-      margin-left: -40px;
-      font-size: 12px;
+
+  .nav-menu li::after {
+    display: none;
   }
 }
-@media(max-width:1024px){
-  .navbar{
-      padding: 12px 30px;
+
+/* Smaller screens adjustments */
+@media(max-width: 500px) {
+  .nav {
+    padding: 10px 4%;
   }
-  .nav-menu{
-      gap: 25px;
-      font-size: 14px;
-  }
-  .nav-login-cart button{
-      width: 80px;
-      height: 35px;
-      font-size: 14px;
-  }
-  .nav-login-cart img{
-      width: 30px;
-  }
-  .nav-cart-count{
-      width: 18px;
-      height: 18px;
-  }
-}
-@media(max-width:800px){
-  .navbar{
-      padding: 10px 0px;
-  }
-  .nav-dropdown{
-      display: block;
-      width: 30px;
-      rotate: -90deg;
-      transition: 0.5s;
-  }
-  .nav-menu{
-      display: none;
-      height: 80px;
-      width: 100%;
-      position: absolute;
-      background-color: white;
-      justify-content: center;
-      top: 50px;
-  }
-  .nav-menu-visible{
-      display: flex;
-  }
-  .nav-dropdown.open{
-      transform: rotate(90deg);
-  }
-}
-@media(max-width:500px){
-  .navbar{
-      padding: 8px 0px;
-      gap: 0;
-  }
-  .nav-logo{
-      transform: scale(0.8);
-  }
-  .nav-menu{
-      height: 70px;
-      top: 50px;
-  }
-  .nav-login-cart{
-      transform: scale(0.8);
+
+  .nav-menu li a {
+    font-size: 16px;
   }
 }
