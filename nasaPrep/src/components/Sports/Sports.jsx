@@ -49,7 +49,8 @@ const Sports = () => {
           setForecast(data.data);
 
           const day = data.data.find(
-            (d) => d.valid_date === new Date(selectedDate).toISOString().split("T")[0]
+            (d) =>
+              d.valid_date === new Date(selectedDate).toISOString().split("T")[0]
           );
 
           if (day) {
@@ -123,20 +124,15 @@ const Sports = () => {
     if (!weather || !selectedSport) return;
 
     const doc = new jsPDF();
-    doc.setFont("helvetica"); // standard font
+    doc.setFont("helvetica");
     doc.setFontSize(16);
 
-    // Header
     doc.text("Sport Weather Report", 10, 10);
-
-    // Sport & Date
     doc.setFontSize(12);
     doc.text(`Sport: ${selectedSport.name}`, 10, 20);
     doc.text(`Date: ${selectedDate}`, 10, 28);
 
-    // Weather
     let y = 36;
-    doc.setFontSize(12);
     doc.text("Weather Forecast:", 10, y);
     y += 8;
 
@@ -156,7 +152,6 @@ const Sports = () => {
       y += 8;
     });
 
-    // Suitability
     y += 4;
     doc.text("Suitability:", 10, y);
     y += 8;
@@ -170,7 +165,6 @@ const Sports = () => {
     doc.setTextColor(0, 0, 0);
     y += 12;
 
-    // Best Days
     if (bestDays.length) {
       doc.text("Best Upcoming Days:", 10, y);
       y += 8;
@@ -188,15 +182,12 @@ const Sports = () => {
   return (
     <div className="sports-page">
       <div className="flexwrapper">
-        {/* Map */}
         <div className="map-section">
           <MapComponent />
         </div>
 
-        {/* Controls + Weather + Suitability */}
         <div className="sports-wrapper">
           <div className="controls-section">
-            {/* Sport Selector */}
             <div className="selector-group">
               <h2>Select Sport</h2>
               <select
@@ -205,9 +196,7 @@ const Sports = () => {
                   setSelectedSport(sports.find((s) => s.name === e.target.value))
                 }
               >
-                <option value="" disabled>
-                  -- Choose a sport --
-                </option>
+                <option value="">-- Choose a sport --</option>
                 {sports.map((s) => (
                   <option key={s.name} value={s.name}>
                     {s.name}
@@ -216,7 +205,6 @@ const Sports = () => {
               </select>
             </div>
 
-            {/* Date Picker */}
             <div className="date-group">
               <h2>Select Date</h2>
               <input
@@ -229,26 +217,24 @@ const Sports = () => {
             </div>
           </div>
 
-          {/* Weather Info */}
           {weather ? (
             <div className="weather-display">
               <h3>Weather Forecast for {selectedDate}</h3>
               <div className="weather-cards">
-                <div>Temperature: {weather.temp}°C</div>
-                <div>Wind Speed: {weather.wind_speed} m/s</div>
-                <div>Humidity: {weather.humidity}%</div>
-                <div>Precipitation: {weather.precip} mm</div>
-                <div>UV Index: {weather.uv}</div>
-                <div>Cloud Cover: {weather.clouds}%</div>
-                <div>Snow: {weather.snow} mm</div>
-                <div>Solar Radiation: {weather.solar_radiation} W/m²</div>
+                <div>🌡️ Temp: {weather.temp}°C</div>
+                <div>💨 Wind: {weather.wind_speed} m/s</div>
+                <div>💧 Humidity: {weather.humidity}%</div>
+                <div>🌧️ Precip: {weather.precip} mm</div>
+                <div>☀️ UV Index: {weather.uv}</div>
+                <div>☁️ Clouds: {weather.clouds}%</div>
+                <div>❄️ Snow: {weather.snow} mm</div>
+                <div>🔆 Solar Radiation: {weather.solar_radiation} W/m²</div>
               </div>
             </div>
           ) : (
             <p>No forecast available for this date.</p>
           )}
 
-          {/* Suitability */}
           {suitability && (
             <div className={`suitability ${suitability.suitable ? "good" : "bad"}`}>
               <h3>
@@ -262,10 +248,9 @@ const Sports = () => {
         </div>
       </div>
 
-      {/* Best Days Section */}
       <div className="best-days-section">
         <button className="best-days-btn" onClick={handleFindBestDays}>
-          Find the Next Good Days for Your Sport
+          🔎 Find the Next Good Days for Your Sport
         </button>
         <p className="best-days-desc">
           Click to see which upcoming days in the next week are best for your chosen sport.
@@ -274,7 +259,7 @@ const Sports = () => {
         {hasChecked &&
           (bestDays.length > 0 ? (
             <div className="best-days-list">
-              <h3>Upcoming Good Days for {selectedSport.name}</h3>
+              <h3>✅ Upcoming Good Days for {selectedSport.name}</h3>
               <ul>
                 {bestDays.map((d) => (
                   <li key={d.date}>
@@ -292,7 +277,6 @@ const Sports = () => {
           ))}
       </div>
 
-      {/* PDF Export */}
       {weather && selectedSport && (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <button onClick={exportPDF}>Export Report as PDF</button>
