@@ -18,7 +18,7 @@ const About = () => {
         </div>
         <div className="about-hero-image">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Weather_map_example.png"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Global_tropical_cyclone_tracks-edit2.jpg/640px-Global_tropical_cyclone_tracks-edit2.jpg"
             alt="Global Weather Map"
           />
         </div>
