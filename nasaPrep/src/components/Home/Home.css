@@ -3,10 +3,26 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #222;
   line-height: 1.6;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f9ff, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin: 20px auto;
+  max-width: 1200px;
 }
 
 /* Hero Section */
 .hero {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f9ff, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin: 20px auto;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;

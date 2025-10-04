@@ -1,14 +1,14 @@
 .sports-page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  width: 100%;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #222;
-  background: linear-gradient(135deg, #e0f7fa, #ffffff);
-  box-sizing: border-box;
-}
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f9ff, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin: 20px auto;
+  max-width: 1200px;}
 
 .flexwrapper {
   display: flex;
