@@ -4,28 +4,43 @@
   gap: 20px;
   padding: 20px;
   width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  box-sizing: border-box;
 }
-.flexwrapper{
+
+.flexwrapper {
   display: flex;
   flex-direction: row;
-  gap: 20px; /* space between the items */
-  align-items: flex-start; /* aligns items at the top, can use center for vertical center */
+  gap: 20px;
+  align-items: stretch; /* Ensures map and sports section are same height */
   width: 100%;
 }
+
 .map-section {
-  
-  width: 1000px;
+  flex: 1; /* Fills available width */
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.sports-wrapper {
+  background: #ffffff;
   display: flex;
   flex-direction: column;
-  width: 40%;
-  margin: 0 auto;
+  justify-content: flex-start;
+  min-height: 500px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12); /* stronger shadow for map */
+}
+
+.sports-wrapper {
+  flex: 1; /* Matches map-section height */
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  min-height: 500px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12); /* same shadow as map */
 }
 
 .controls-section {
@@ -33,6 +48,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
+  width: 100%;
 }
 
 .selector-group,
@@ -58,6 +74,7 @@
   align-items: center;
   text-align: center;
   justify-content: center;
+  width: 100%;
 }
 
 .weather-cards {
@@ -67,14 +84,16 @@
   justify-content: center;
   gap: 15px;
   font-size: 16px;
+  width: 100%;
 }
 
 .weather-cards div {
-  background-color: #f4f4f4;
+  background: #ffffff;
   padding: 10px 15px;
   border-radius: 8px;
   min-width: 120px;
   text-align: center;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
 }
 
 .suitability {
@@ -83,6 +102,7 @@
   border-radius: 12px;
   font-weight: 500;
   line-height: 1.5;
+  width: 100%;
 }
 
 .suitability.good {
@@ -122,11 +142,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
 }
 
 .best-days-btn {
-  background-color: #0077ff;
-  color: white;
+  background-color: #0077b6;
+  color: #fff;
   border: none;
   padding: 0.9rem 2rem;
   font-size: 1.1rem;
@@ -136,13 +159,13 @@
 }
 
 .best-days-btn:hover {
-  background-color: #005bcc;
+  background-color: #023e8a;
   transform: translateY(-2px);
 }
 
 .best-days-desc {
   margin-top: 0.6rem;
-  color: #555;
+  color: #222;
   max-width: 600px;
   line-height: 1.5;
 }
@@ -151,6 +174,7 @@
   margin-top: 1.5rem;
   text-align: left;
   display: inline-block;
+  width: 100%;
 }
 
 .best-days-list ul {
@@ -159,8 +183,9 @@
 }
 
 .best-days-list li {
-  background: #f6f6f6;
+  background: #ffffff;
   padding: 0.6rem 1rem;
   margin: 0.4rem 0;
   border-radius: 6px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
 }
