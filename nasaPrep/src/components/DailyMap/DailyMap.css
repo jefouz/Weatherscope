@@ -1,0 +1,11 @@
+.wrapper {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.HorizantalWrapper {
+    width: 100%;
+    display: flex;
+    gap: 20px; /* space between the items */
+    align-items: flex-start; /* aligns items at the top, can use center for vertical center */
+}

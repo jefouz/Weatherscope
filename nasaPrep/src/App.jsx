@@ -5,7 +5,7 @@ import Footer from "./components/Footer/Footer";
 import "./App.css"
 import Home from "./components/Home/Home";
 import Sports from "./components/Sports/Sports";
-
+import DailyMap from "./components/DailyMap/DailyMap";
 function App() {
 
   return (<>
@@ -16,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/Sports" element={<Sports/>} />
+        <Route path="/DailyMap" element={<DailyMap/>} />
       </Routes>
       
       
