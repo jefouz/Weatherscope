@@ -36,11 +36,11 @@ const Contact = () => {
       <section className="contact-info">
         <div className="info-card">
           <h3>Email</h3>
-          <p>support@weatherscope.com</p>
+          <p>ajaffal126@gmail.com</p>
         </div>
         <div className="info-card">
           <h3>Phone</h3>
-          <p>+961 123 4567</p>
+          <p>+961 70 945 378</p>
         </div>
         <div className="info-card">
           <h3>Location</h3>
