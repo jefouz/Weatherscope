@@ -202,7 +202,7 @@ const Sports = () => {
           🔎 Find the Next Good Days for Your Sport
         </button>
         <p className="best-days-desc">
-          Click to see which upcoming days in the next two weeks are best for your chosen sport based on the weather forecast.
+          Click to see which upcoming days in the next week are best for your chosen sport based on the weather forecast.
         </p>
 
         {hasChecked && (
@@ -220,7 +220,7 @@ const Sports = () => {
           ) : (
             <p className="no-best-days">
               {selectedSport && coordinates
-                ? "No suitable days found for this sport in the next two weeks."
+                ? "No suitable days found for this sport in the next week."
                 : "No suitable days found yet. Please select a sport and location."}
             </p>
           )
