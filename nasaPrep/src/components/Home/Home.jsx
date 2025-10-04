@@ -18,10 +18,10 @@ const Home = () => {
             covered.
           </p>
           <div className="hero-buttons">
-            <Link to="/map" className="btn">
+            <Link to="/DailyMap" className="btn">
               🌍 View Map
             </Link>
-            <Link to="/sports-check" className="btn secondary">
+            <Link to="/Sports" className="btn secondary">
               ⚽ Sports Check
             </Link>
           </div>
@@ -64,7 +64,7 @@ const Home = () => {
 
           <div className="card">
             <img
-              src="https://cdn-icons-png.flaticon.com/512/616/616408.png"
+              src="/images/new-SpaceApps_logo.webp"
               alt="NASA"
             />
             <h3>Built for Space Apps</h3>
