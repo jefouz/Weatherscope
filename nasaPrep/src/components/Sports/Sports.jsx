@@ -86,7 +86,7 @@ const Sports = () => {
       <div className="map-section">
         <MapComponent />
       </div>
-
+<div className="sports-wrapper">
       {/* Controls */}
       <div className="controls-section">
         {/* Sport Selector */}
@@ -153,7 +153,7 @@ const Sports = () => {
             </ul>
           )}
         </div>
-      )}
+      )}</div>
     </div>
   );
 };
