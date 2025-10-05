@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Navbar from "./components/Nav/Nav";
 import Footer from "./components/Footer/Footer";
-
+import Chatbot from "./components/Chatbot/Chatbot";
 import "./App.css"
 import Home from "./components/Home/Home";
 import Sports from "./components/Sports/Sports";
@@ -27,6 +27,8 @@ function App() {
       </Routes>
       
       
+      <Chatbot />
+    
       <Footer/>
 
      
