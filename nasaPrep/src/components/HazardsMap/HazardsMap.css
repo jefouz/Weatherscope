@@ -74,7 +74,7 @@
 
 /* Legend */
 .info.legend {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.3);
   padding: 10px 14px;
   border-radius: 8px;
   box-shadow: 0 6px 12px rgba(0,0,0,0.1);
@@ -85,7 +85,7 @@
 
 .info.legend h4 {
   margin: 0 0 6px 0;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
   color: #1e3a8a;
 }
@@ -127,3 +127,29 @@
     gap: 8px;
   }
 }
+/* Responsive */
+@media (max-width: 768px) {
+  .hazards-intro h2 {
+    font-size: 22px;
+  }
+  .hazards-intro p {
+    font-size: 14px;
+  }
+  .date-picker {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+@media (max-width: 538px) {
+  .hazards-intro h2 {
+    font-size: 22px;
+  }
+  .hazards-intro p {
+    font-size: 14px;
+  }
+  .date-picker {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
