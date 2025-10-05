@@ -3,7 +3,6 @@
 }
 @media (max-width: 520px) {
   .p-4{
-display: none;    
- 
+    display: none;
   }
 }

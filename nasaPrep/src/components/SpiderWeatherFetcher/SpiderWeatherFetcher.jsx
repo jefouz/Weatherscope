@@ -229,9 +229,9 @@ function SpiderWeatherFetcher() {
 
       {data && (
         <div className="export-buttons" style={{ textAlign: "center", marginTop: "20px" }}>
-          <button className="btn" onClick={exportJSON}>Export JSON</button>
-          <button className="btn" onClick={exportCSV}>Export CSV</button>
-          <button className="btn" onClick={exportPDF}>Export PDF</button>
+          <button style={{margin:"20px"}} className="btn" onClick={exportJSON}>Export JSON</button>
+          <button style={{margin:"20px"}} className="btn" onClick={exportCSV}>Export CSV</button>
+          <button style={{margin:"20px"}} className="btn" onClick={exportPDF}>Export PDF</button>
         </div>
       )}
     </div>
