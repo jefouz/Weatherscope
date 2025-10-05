@@ -19,29 +19,28 @@ export default function Chatbot() {
 
   // ------------------- Date Parsing -------------------
   const parseDateFromText = (text) => {
-  text = text.toLowerCase();
-  const today = new Date();
-  const weekdays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    text = text.toLowerCase();
+    const today = new Date();
+    const weekdays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
 
-  if (/today/i.test(text)) return today;
-  if (/tomorrow|tommorow|tomorow/i.test(text)) return addDays(today, 1);
-  if (/yesterday/i.test(text)) return addDays(today, -1);
+    if (/today/i.test(text)) return today;
+    if (/tomorrow|tommorow|tomorow/i.test(text)) return addDays(today, 1);
+    if (/yesterday/i.test(text)) return addDays(today, -1);
 
-  // Check for "next <weekday>" or "last <weekday>"
-  for (let i = 0; i < weekdays.length; i++) {
-    const weekday = weekdays[i];
-    if (text.includes(`next ${weekday}`)) return nextDay(addDays(today, 7), i);
-    if (text.includes(`last ${weekday}`)) return nextDay(addDays(today, -7), i);
-    if (text.includes(weekday)) return nextDay(today, i);
-  }
+    // Check for "next <weekday>" or "last <weekday>"
+    for (let i = 0; i < weekdays.length; i++) {
+      const weekday = weekdays[i];
+      if (text.includes(`next ${weekday}`)) return nextDay(addDays(today, 7), i);
+      if (text.includes(`last ${weekday}`)) return nextDay(addDays(today, -7), i);
+      if (text.includes(weekday)) return nextDay(today, i);
+    }
 
-  // Detect "next week" or "last week" anywhere in text
-  if (/next week/i.test(text)) return "nextWeek";
-  if (/last week/i.test(text)) return "lastWeek";
+    // Detect "next week" or "last week" anywhere in text
+    if (/next week/i.test(text)) return "nextWeek";
+    if (/last week/i.test(text)) return "lastWeek";
 
-  return today; // fallback
-};
-
+    return today; // fallback
+  };
 
   // ------------------- City Extraction -------------------
   const extractCity = (text) => {
@@ -66,6 +65,21 @@ export default function Chatbot() {
     setMessages(prev => [...prev, userMessage]);
 
     const text = input.toLowerCase();
+
+    // ------------------------- Handle greetings -------------------------
+    if (/^hi$|^hello$|^hey$/i.test(text)) {
+      setMessages(prev => [...prev, { sender: "bot", text: "Hello! Ask me about the weather anywhere with a date." }]);
+      setInput("");
+      return;
+    }
+
+    if (/help/i.test(text)) {
+      setMessages(prev => [...prev, { sender: "bot", text: "You can ask: 'Weather in City today', 'Weather in City tomorrow', 'Weather in City next Monday', or 'Weather in City next week'." }]);
+      setInput("");
+      return;
+    }
+
+    // ------------------------- Weather query -------------------------
     const dateOrWeek = parseDateFromText(text);
     const city = extractCity(text);
 
@@ -76,12 +90,15 @@ export default function Chatbot() {
     }
 
     const coords = await geocodeCity(city);
-    if (!coords) {
+
+    // Strict validation
+    if (!coords || !coords.lat || !coords.lon) {
       setMessages(prev => [...prev, { sender: "bot", text: `Sorry, I couldn't find a valid city or country named "${city}".` }]);
       setInput("");
       return;
     }
 
+    // ------------------------- Next week vs single day -------------------------
     if (dateOrWeek === "nextWeek" || dateOrWeek === "lastWeek") {
       const dailyMessages = await fetchWeatherbitNextWeek(coords.lat, coords.lon, weatherbitApiKey, coords.name);
       dailyMessages.forEach(msg => setMessages(prev => [...prev, { sender: "bot", text: msg }]));
