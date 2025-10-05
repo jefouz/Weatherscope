@@ -1,4 +1,6 @@
-
+/* -------------------------
+   General Container
+------------------------- */
 .contact-container {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #222;
@@ -8,6 +10,9 @@
   background: #f4f7f9;
 }
 
+/* -------------------------
+   Hero Section
+------------------------- */
 .contact-hero {
   text-align: center;
   padding: 5rem 2rem;
@@ -27,28 +32,29 @@
   color: #055a8c;
 }
 
-
+/* -------------------------
+   Contact Info Section
+------------------------- */
 .contact-info {
   display: flex;
   justify-content: center;
   gap: 2rem;
   flex-wrap: wrap;
   padding: 3rem 2rem;
+  box-sizing: border-box;
 }
 
 .info-card {
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
-  width: 220px;
+  flex: 1 1 220px;     /* grow, shrink, base width */
+  min-width: 150px;    /* prevents cards from getting too small */
+  max-width: 220px;    /* keeps large screens consistent */
   text-align: center;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.info-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  box-sizing: border-box;
 }
 
 .info-card h3 {
@@ -57,56 +63,90 @@
 }
 
 .info-card p {
-  font-size: 1rem;
-  color: #333;
+  text-align: center;
+  font-size: clamp(0.8rem, 2vw, 1rem); /* text scales responsively */
+  line-height: 1.4;
 }
 
+/* Hover effect */
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
 
+/* -------------------------
+   Contact Form Section
+------------------------- */
 .contact-form-section {
   padding: 4rem 2rem;
   max-width: 700px;
   margin: 0 auto;
+  text-align: center;
+  background: #f8f9fa;
 }
 
 .contact-form-section h2 {
   font-size: 2.2rem;
   margin-bottom: 2rem;
   color: #0077b6;
-  text-align: center;
 }
 
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
 
-.confirmation {
-  background: #d4edda;
-  color: #155724;
-  border-radius: 10px;
-  padding: 1rem 1.5rem;
-  margin-bottom: 2rem;
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
   font-weight: bold;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  margin-bottom: 0.5rem;
 }
 
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  resize: none;
+  box-sizing: border-box;
+}
 
-.contact-form-section { padding: 4rem 8%; background: #f8f9fa; text-align: center; } .contact-form-section h2 { font-size: 2.2rem; margin-bottom: 2rem; color: #0077b6; }
- .contact-form { max-width: 600px; margin: 0 auto; text-align: left; }
-  .form-group { margin-bottom: 1.5rem; }
-   .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; }
-    .form-group input, .form-group textarea 
-    { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; resize: none; box-sizing: border-box; } 
-    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #0077b6; box-shadow: 0 0 5px rgba(0,119,182,0.3); } 
-    .btn-submit { display: inline-block; padding: 0.8rem 2rem; background: #0077b6; color: #fff; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s ease; } 
-    .btn-submit:hover { background: #023e8a; }
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0077b6;
+  box-shadow: 0 0 5px rgba(0,119,182,0.3);
+}
 
+.btn-submit {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #0077b6;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
 
-@media (max-width: 768px) {
-  .contact-info {
-    flex-direction: column;
-    align-items: center;
-  }
+.btn-submit:hover {
+  background: #023e8a;
+}
 
+/* -------------------------
+   Responsive Styles
+------------------------- */
+@media (max-width: 1024px) {
   .contact-hero h1 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
   }
 
   .contact-form-section h2 {
@@ -114,7 +154,26 @@
   }
 }
 
+@media (max-width: 768px) {
+  .info-card {
+    flex: 1 1 45%; /* 2 cards per row, shrinkable */
+    max-width: none;
+  }
+}
+
 @media (max-width: 480px) {
+  .info-card {
+    flex: 1 1 90%; /* 1 card per row */
+  }
+  
+  .info-card p {
+    word-wrap: break-word;
+  }
+
+  .contact-hero h1 {
+    font-size: 2rem;
+  }
+
   .contact-form {
     padding: 2rem 1rem;
   }

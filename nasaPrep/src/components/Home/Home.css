@@ -41,11 +41,15 @@
 }
 
 .hero-text h1 {
-  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-size: clamp(1.8rem, 5vw, 3rem); /* font scales with viewport */
   color: #0077b6;
   margin-bottom: 1rem;
-  word-wrap: break-word; /* ensure long words break if needed */
+  line-height: 1.2;
+  word-break: normal;       /* prevents breaking inside words */
+  overflow-wrap: break-word; /* allows wrapping at spaces, not inside words */
+  max-width: 100%;           /* ensures it doesn’t exceed container width */
 }
+
 
 
 .hero-text p {
@@ -120,4 +124,17 @@
   font-size: 1.3rem;
   margin-bottom: 0.8rem;
   color: #023e8a;
+}
+
+/* For very small screens, shrink font instead of wrapping */
+@media (max-width: 386px) {
+  .hero-text h1 {
+    font-size: 1.5rem; /* smaller font to keep words together */
+  }
+}
+/* For very small screens, shrink font instead of wrapping */
+@media (max-width: 386px) {
+  .hero-text h1 {
+    font-size: 1.4rem; /* smaller font to keep words together */
+  }
 }
