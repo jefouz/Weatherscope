@@ -26,6 +26,8 @@
   font-size: 3rem;
   color: #0077b6;
   margin-bottom: 1rem;
+  word-break: break-word; /* allow long words to break */
+  white-space: normal;  /* ensure wrapping is normal */
 }
 
 .about-hero-text p {
@@ -99,10 +101,10 @@
 }
 
 .team-card img {
-  width: 120px;       /* all images same width */
-  height: 120px;      /* all images same height */
-  object-fit: cover;  /* crop/fit the image nicely */
-  border-radius: 50%; /* makes it circular */
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
   margin-bottom: 1rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
@@ -199,6 +201,10 @@
     max-width: 100%;
   }
 
+  .about-hero-text h1 {
+    font-size: 2rem; /* smaller font on small screens */
+  }
+
   .about-mission {
     flex-direction: column;
     align-items: center;
@@ -207,5 +213,18 @@
   .features-cards, .team-cards {
     flex-direction: column;
     align-items: center;
+  }
+}
+
+/* Medium screens adjustment */
+@media (max-width: 768px) {
+  .about-hero-text h1 {
+    font-size: 2.3rem;
+  }
+}
+/* Medium screens adjustment */
+@media (max-width: 418px) {
+  .about-hero-text h1 {
+    font-size: 1.6rem;
   }
 }
