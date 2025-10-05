@@ -222,7 +222,7 @@ function SpiderWeatherFetcher() {
       {error && <p className="error-text">{error}</p>}
 
       {radarData && !error && (
-        <div ref={radarRef} style={{ maxWidth: "500px", margin: "20px auto" }}>
+        <div ref={radarRef} className="radar-chart-container">
           <Radar data={radarData} options={{ responsive: true }} />
         </div>
       )}

@@ -73,3 +73,9 @@ btn:active {
   box-shadow: 0 12px 24px rgba(0,0,0,0.12);
   min-height: 500px;
 }
+@media (max-width: 768px) {
+  .HorizantalWrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

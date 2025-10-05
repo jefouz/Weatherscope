@@ -13,9 +13,7 @@ const DailyMap = () => {
           <SpiderWeatherFetcher /> 
           </div>
           <HourlyChart />  
-    </div>
-    
-        
+    </div>    
   )
 }
 
