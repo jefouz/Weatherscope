@@ -5,7 +5,7 @@ import { geocodeCity, fetchWeatherbitData, fetchWeatherbitNextWeek } from "../..
 
 export default function Chatbot() {
   const [messages, setMessages] = useState([
-    { sender: "bot", text: "Hi! Ask me about the weather anywhere. Examples: 'Weather in Paris tomorrow', 'Weather in Tokyo last Monday', or 'Weather in New York next week'." }
+    { sender: "bot", text: "Hi! I’m a rule-based Weather AI 🤖. I only understand certain commands. You can ask me things like: 'Weather in Paris tomorrow', 'Weather in Tokyo last Monday', or 'Weather in New York next week'." }
   ]);
   const [input, setInput] = useState("");
   const [open, setOpen] = useState(false);
@@ -68,13 +68,13 @@ export default function Chatbot() {
 
     // ------------------------- Handle greetings -------------------------
     if (/^hi$|^hello$|^hey$/i.test(text)) {
-      setMessages(prev => [...prev, { sender: "bot", text: "Hello! Ask me about the weather anywhere with a date." }]);
+      setMessages(prev => [...prev, { sender: "bot", text: "Hello! I’m a rule-based Weather AI 🤖. Ask me about the weather anywhere with a date." }]);
       setInput("");
       return;
     }
 
     if (/help/i.test(text)) {
-      setMessages(prev => [...prev, { sender: "bot", text: "You can ask: 'Weather in City today', 'Weather in City tomorrow', 'Weather in City next Monday', or 'Weather in City next week'." }]);
+      setMessages(prev => [...prev, { sender: "bot", text: "I'm a rule-based AI that only understands specific commands like:\n- 'Weather in City today'\n- 'Weather in City tomorrow'\n- 'Weather in City next Monday'\n- 'Weather in City next week'" }]);
       setInput("");
       return;
     }
@@ -84,7 +84,7 @@ export default function Chatbot() {
     const city = extractCity(text);
 
     if (!city) {
-      setMessages(prev => [...prev, { sender: "bot", text: "Please specify a valid city or country." }]);
+      setMessages(prev => [...prev, { sender: "bot", text: "Please specify a valid city or country. (Remember: I’m a rule-based AI and only understand weather queries in the format 'Weather in City [date]'.)" }]);
       setInput("");
       return;
     }
@@ -93,7 +93,7 @@ export default function Chatbot() {
 
     // Strict validation
     if (!coords || !coords.lat || !coords.lon) {
-      setMessages(prev => [...prev, { sender: "bot", text: `Sorry, I couldn't find a valid city or country named "${city}".` }]);
+      setMessages(prev => [...prev, { sender: "bot", text: `Sorry, I couldn't find a valid city or country named "${city}". Make sure you use a recognizable location. (Rule-based AI limitation)` }]);
       setInput("");
       return;
     }
@@ -121,7 +121,7 @@ export default function Chatbot() {
       {open && (
         <div className="chatbot-container">
           <div className="chatbot-header">
-            <span>Weather Chatbot</span>
+            <span>Weather Chatbot (Rule-Based AI)</span>
             <button className="chatbot-close" onClick={() => setOpen(false)}>✖</button>
           </div>
           <div className="chatbot-messages">
@@ -138,7 +138,7 @@ export default function Chatbot() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Type a message..."
+              placeholder="Type a weather query..."
               className="chatbot-input"
             />
             <button onClick={handleSend} className="chatbot-button">Send</button>
