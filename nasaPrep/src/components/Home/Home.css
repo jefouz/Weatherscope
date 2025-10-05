@@ -1,10 +1,10 @@
-/* General Layout */
+/* ------------------------------
+   General Layout
+------------------------------ */
 .home-container {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #222;
   line-height: 1.6;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #222;
   padding: 20px;
   background: linear-gradient(135deg, #f0f9ff, #ffffff);
   border-radius: 16px;
@@ -13,33 +13,40 @@
   max-width: 1200px;
 }
 
-/* Hero Section */
+/* ------------------------------
+   Hero Section Adjustments
+------------------------------ */
 .hero {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #222;
-  padding: 20px;
-  background: linear-gradient(135deg, #f0f9ff, #ffffff);
+  display: flex;
+  flex-direction: column; /* stack everything vertically */
+  justify-content: center;
+  align-items: center; /* center horizontally */
+  text-align: center; /* center text */
+  padding: 4rem 8%;
+  gap: 2rem;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   margin: 20px auto;
   max-width: 1200px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4rem 8%;
-  background: linear-gradient(135deg, #e0f7fa, #ffffff);
-  gap: 2rem;
+}
+
+/* Remove hero image completely */
+.hero-image {
+  display: none;
 }
 
 .hero-text {
-  max-width: 50%;
+  max-width: 100%; /* take full width since image is gone */
 }
 
 .hero-text h1 {
-  font-size: 3rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
   color: #0077b6;
   margin-bottom: 1rem;
+  word-wrap: break-word; /* ensure long words break if needed */
 }
+
 
 .hero-text p {
   font-size: 1.1rem;
@@ -48,16 +55,16 @@
 
 .hero-buttons {
   display: flex;
-
- 
+  justify-content: center; /* center buttons */
+  flex-wrap: wrap; /* wrap on very small screens */
+  gap: 10px;
 }
 
-.butn {padding: 10px 8px;
+.butn {
+  padding: 10px 8px;
   margin: 5px;
-  
- 
   text-decoration: none;
- text-align: center;
+  text-align: center;
   border-radius: 8px;
   background: #0077b6;
   color: #fff;
@@ -69,16 +76,9 @@
   background: #023e8a;
 }
 
-
-
-
-.hero-image img {
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Highlights Section */
+/* ------------------------------
+   Highlights Section
+------------------------------ */
 .highlights {
   text-align: center;
   padding: 4rem 8%;
