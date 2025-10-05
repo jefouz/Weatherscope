@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { addDays, nextDay } from "date-fns";
 import "./Chatbot.css";
-import { geocodeCity, fetchWeatherbitData, fetchWeatherbitNextWeek } from "../../components/weatherAPI";
+import { geocodeCity, fetchWeatherbitData, fetchWeatherbitNextWeek } from "../../components/WeatherAPI";
 
 export default function Chatbot() {
   const [messages, setMessages] = useState([
