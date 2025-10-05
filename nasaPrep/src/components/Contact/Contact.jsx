@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Contact.css";
-import { Link } from "react-router-dom";
+import emailjs from "emailjs-com";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,15 +10,32 @@ const Contact = () => {
     message: "",
   });
 
+  const [status, setStatus] = useState(""); // success | error | sending
+
+  // ⚙️ Your EmailJS credentials (replace these with your own)
+  const SERVICE_ID = "service_bht0f1d";
+  const TEMPLATE_ID = "template_hxgdkde";
+  const PUBLIC_KEY = "D739shCHBKFqRtP3I";
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can handle form submission (API call or email service)
-    alert("Thank you! Your message has been submitted.");
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setStatus("sending");
+
+    // Send email using EmailJS
+    emailjs
+      .send(SERVICE_ID, TEMPLATE_ID, formData, PUBLIC_KEY)
+      .then(() => {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      })
+      .catch((error) => {
+        console.error("EmailJS Error:", error);
+        setStatus("error");
+      });
   };
 
   return (
@@ -51,55 +68,76 @@ const Contact = () => {
       {/* Contact Form Section */}
       <section className="contact-form-section">
         <h2>Send Us a Message</h2>
-        <form onSubmit={handleSubmit} className="contact-form">
-          <div className="form-group">
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Your Name"
-              required
-            />
+
+        {status === "success" ? (
+          <div className="thank-you-message">
+            <h3>🎉 Thank you for reaching out!</h3>
+            <p>Your message has been sent successfully.</p>
+            <button onClick={() => setStatus("")} className="btn-submit">
+              Send Another Message
+            </button>
           </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Your Email"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Subject</label>
-            <input
-              type="text"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              placeholder="Subject"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Message</label>
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Your Message"
-              rows="5"
-              required
-            ></textarea>
-          </div>
-          <button type="submit" className="btn-submit">
-            Send Message
-          </button>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="contact-form">
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Your Name"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Your Email"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Subject</label>
+              <input
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Subject"
+              />
+            </div>
+            <div className="form-group">
+              <label>Message</label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Your Message"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="btn-submit"
+              disabled={status === "sending"}
+            >
+              {status === "sending" ? "Sending..." : "Send Message"}
+            </button>
+
+            {status === "error" && (
+              <p className="error-text">
+                ❌ Something went wrong. Please try again later.
+              </p>
+            )}
+          </form>
+        )}
       </section>
     </div>
   );
