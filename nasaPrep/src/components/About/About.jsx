@@ -52,15 +52,15 @@ const About = () => {
             alt="Ali Adnan Jaffal"
           />
           <h3>Ali Adnan Jaffal</h3>
-          <p>Lead Developer – Responsible for building the interactive map and core functionalities.</p>
+          <p>lead UI Designer</p>
         </div>
         <div className="team-card">
           <img
             src="/images/Hussein Al Sheebe.jpg"
             alt="Hussein Al Sheebe"
           />
-          <h3>Hussein Al Sheebe</h3>
-          <p>Backend Developer</p>
+          <h3>Hussein Al Shaobi</h3>
+          <p>DEV</p>
         </div>
         <div className="team-card">
           <img
@@ -68,7 +68,7 @@ const About = () => {
             alt="Ali Mohammad Jaffal"
           />
           <h3>Ali Mohammad Jaffal</h3>
-          <p>Front-End Designer</p>
+          <p>DEV</p>
         </div>
       </div>
     </section>
